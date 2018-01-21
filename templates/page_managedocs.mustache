@@ -1,0 +1,89 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    Template for the policy documents management page.
+
+    Classes required for JS:
+    -
+
+    Data attributes required for JS:
+    -
+
+    Context variables required for this template:
+    * navigation - array of strings containing buttons for navigation
+}}
+<div data-region="managedocs">
+<div class="pull-left">
+    {{#navigation}}
+    {{{.}}}
+    {{/navigation}}
+</div>
+<p style="clear:both" />
+<div>
+    {{#policies}}
+    <div class="card">
+        <div class="card-block">
+            {{^currentversionid}}
+            <span class="pull-right label label-warning">{{#str}}inactive, tool_policy{{/str}}</span>
+            {{/currentversionid}}
+            <h3 class="card-title {{^currentversionid}}muted{{/currentversionid}}">{{name}} <span class="badge badge-success">{{usersaccepted}} accepted</span> </h3>
+        </div>
+        <div class="card-block">
+            <table class="generaltable fullwidth managecompetencies">
+                <thead>
+                    <tr>
+                        <th scope="col">{{#str}} policydocrevision, tool_policy {{/str}}</th>
+                        <th scope="col">{{#str}} status {{/str}}</th>
+                        <th scope="col">{{#str}} usersaccepted, tool_policy {{/str}}</th>
+                        <th scope="col">{{#str}} actions {{/str}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#versions}}
+                    <tr>
+                        <td>
+                            <div>{{revision}}</div>
+                            <div><small class="muted">{{#userdate}}{{timecreated}}, {{#str}}strftimedate{{/str}}{{/userdate}}</small></div>
+                        </td>
+                        <td>
+                            {{#isarchive}}<span class="label">{{#str}} statusarchive, tool_policy {{/str}}</span>{{/isarchive}}
+                            {{#isdraft}}<span class="label label-info">{{#str}} statusdraft, tool_policy {{/str}}</span>{{/isdraft}}
+                            {{#iscurrent}}<span class="label label-success">{{#str}} statuscurrent, tool_policy {{/str}}</span>{{/iscurrent}}
+                        </td>
+                        <td>
+                            <span class="badge">{{usersaccepted}}</span>
+                            <small><a href="#">Details</a></small>
+                        </td>
+                        <td>
+                            {{#actions}}
+                            {{{.}}}
+                            {{/actions}}
+                        </td>
+                    </tr>
+                    {{/versions}}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-block">
+            <a class="btn btn-link card-link" href="{{pluginbaseurl}}/editpolicydoc.php?policyid={{id}}">{{#str}}addpolicyversion, tool_policy{{/str}}</a>
+            {{#currentversionid}}
+            <a class="btn btn-link card-link" href="{{pluginbaseurl}}//editpolicydoc.php?policyid={{id}}&inactivate={{currentversionid}}">{{#str}}inactivate, tool_policy{{/str}}</a>
+            {{/currentversionid}}
+        </div>
+    </div>
+    {{/policies}}
+</div>
